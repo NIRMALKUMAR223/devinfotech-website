@@ -53,7 +53,7 @@ const MainContent = () => {
             href="tel:97878587769" 
             className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full font-medium flex items-center gap-2 transition"
           >
-            <FaPhone /> +91 97878 58776
+            <FaPhone /> +91 97878 57769
           </a>
           <button className="border-2 border-blue-600 text-blue-600 hover:bg-blue-50 px-6 py-3 rounded-full font-medium transition">
             Get Project Proposal
@@ -194,7 +194,7 @@ const MainContent = () => {
             href="tel:97878587769" 
             className="bg-white text-blue-600 px-8 py-3 rounded-full font-bold hover:bg-gray-100 transition flex items-center gap-2"
           >
-            <FaPhone /> Call Now: +91 97878 58776
+            <FaPhone /> Call Now: +91 97878 57769
           </a>
           <button className="bg-transparent border-2 border-white text-white hover:bg-blue-700 px-8 py-3 rounded-full font-bold transition">
             Request Callback

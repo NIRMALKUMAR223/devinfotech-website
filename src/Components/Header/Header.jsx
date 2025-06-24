@@ -17,7 +17,11 @@ const Header = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const toggleMenu = () => {
+/*************  ✨ Windsurf Command ⭐  *************/
+  /**
+   * Toggles the menu open or closed and adjusts the body's overflow to prevent or allow scrolling.
+   */
+/*******  22a73ea4-9749-4169-a511-63cbf189438a  *******/  const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
     if (isMenuOpen) {
       document.body.style.overflow = 'auto';
@@ -26,17 +30,10 @@ const Header = () => {
     }
   };
 
-  const toggleDropdown = (dropdownName) => {
-    if (openDropdown === dropdownName) {
-      setOpenDropdown(null);
-    } else {
-      setOpenDropdown(dropdownName);
-    }
-  };
-
   const closeMenu = () => {
     setIsMenuOpen(false);
     document.body.style.overflow = 'auto';
+    setOpenDropdown(null);
   };
 
   const navItems = [
@@ -77,7 +74,7 @@ const Header = () => {
         <div className="flex items-center space-x-6">
           <div className="flex items-center text-white text-sm">
             <FaPhone className="mr-2 text-blue-300" />
-            <a href="tel:97878587769" className="hover:text-blue-300 transition">+91 97878 58776</a>
+            <a href="tel:97878 57769" className="hover:text-blue-300 transition">+91 97878 57769</a>
           </div>
           <div className="flex items-center text-white text-sm">
             <FaEnvelope className="mr-2 text-blue-300" />
@@ -116,29 +113,33 @@ const Header = () => {
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-8">
             {navItems.map((item, index) => (
-              <div key={index} className="relative">
+              <div 
+                key={index} 
+                className="relative group"
+                onMouseEnter={() => setOpenDropdown(item.name)}
+                onMouseLeave={() => setOpenDropdown(null)}
+              >
                 {item.dropdown ? (
                   <div 
-                    className={`flex items-center cursor-pointer group ${isScrolled ? 'text-gray-700 hover:text-blue-600' : 'text-white hover:text-blue-300'}`}
-                    onClick={() => toggleDropdown(item.name)}
+                    className={`flex items-center cursor-pointer ${isScrolled ? 'text-gray-700 hover:text-blue-600' : 'text-white hover:text-blue-300'}`}
                   >
                     <span className="font-medium">{item.name}</span>
                     <FaChevronDown className="ml-1 text-xs" />
                     
                     {/* Dropdown menu */}
-                    {openDropdown === item.name && (
-                      <div className="absolute top-full left-0 mt-2 w-64 bg-white shadow-lg rounded-lg py-2 z-50">
-                        {item.dropdown.map((subItem, subIndex) => (
-                          <a 
-                            key={subIndex}
-                            href={subItem.path}
-                            className="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600"
-                          >
-                            {subItem.name}
-                          </a>
-                        ))}
-                      </div>
-                    )}
+                    <div className={`absolute top-full left-0 mt-2 w-64 bg-white shadow-lg rounded-lg py-2 z-50 transition-all duration-300 transform origin-top ${
+                      openDropdown === item.name ? 'scale-100 opacity-100' : 'scale-95 opacity-0 pointer-events-none'
+                    }`}>
+                      {item.dropdown.map((subItem, subIndex) => (
+                        <a 
+                          key={subIndex}
+                          href={subItem.path}
+                          className="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                        >
+                          {subItem.name}
+                        </a>
+                      ))}
+                    </div>
                   </div>
                 ) : (
                   <a 
@@ -153,8 +154,8 @@ const Header = () => {
             
             {/* Contact button */}
             <a 
-              href="tel:97878587769" 
-              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center font-medium"
+              href="tel:97878 57769" 
+              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center font-medium transition-colors"
             >
               <FaPhone className="mr-2" />
               Call Now
@@ -197,7 +198,7 @@ const Header = () => {
                     <div>
                       <div 
                         className="flex items-center justify-between font-medium text-gray-800 cursor-pointer"
-                        onClick={() => toggleDropdown(item.name)}
+                        onClick={() => setOpenDropdown(openDropdown === item.name ? null : item.name)}
                       >
                         <span>{item.name}</span>
                         <FaChevronDown className={`transform transition-transform ${openDropdown === item.name ? 'rotate-180' : ''}`} />
@@ -234,7 +235,7 @@ const Header = () => {
             <div className="mt-8 space-y-4">
               <div className="flex items-center">
                 <FaPhone className="text-blue-600 mr-3" />
-                <a href="tel:97878587769" className="text-gray-800 font-medium">+91 97878 58776</a>
+                <a href="tel:97878 57769" className="text-gray-800 font-medium">+91 97878 57769</a>
               </div>
               <div className="flex items-center">
                 <FaEnvelope className="text-blue-600 mr-3" />
@@ -249,7 +250,7 @@ const Header = () => {
             </div>
 
             <a 
-              href="tel:97878587769" 
+              href="tel:97878 57769" 
               className="mt-8 block bg-blue-600 text-white text-center py-3 rounded-lg font-medium"
             >
               <div className="flex items-center justify-center">
