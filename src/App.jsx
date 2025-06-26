@@ -1,34 +1,27 @@
 // File: src/App.jsx
 import React from 'react';
-import Header from './Components/Header/Header';
-import MainContent from './Components/Main/MainContent';
-import Footer from './Components/Footer/Footer';
-import './App.css'; // Import your global styles
-import video from './assets/videos/tech-background.mp4'; // Import video file
+import { Routes, Route } from 'react-router-dom';
+
+import Main from './pages/Main';
+import Domains from './pages/Domains';
+import Services from './pages/Services';
+import Vision from './pages/Vision';
+import Locations from './pages/Locations';
+import Contact from './pages/Contact';
+import Home from './components/Main/Home';
 
 function App() {
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
-      {/* Header - Fixed at the top */}
-      <div className="fixed w-full z-50">
-        <Header />
-      </div>
-
-      {/* Spacer to prevent content from hiding behind fixed header */}
-      <div className="h-24 lg:h-28"></div>
-      
-      <video src={video} autoPlay loop muted></video>
-
-      {/* Main Content - Centered with proper padding */}
-      <main className="video-play flex-grow w-full  mx-auto w-full px-4 sm:px-6 lg:px-8">
-        <MainContent />
-      </main>
-
-      {/* Footer - Always at the bottom */}
-      <div className="mt-auto">
-        <Footer />
-      </div>
-    </div>
+    <Routes>
+      <Route path="/" element={<Main />}>
+        <Route index element={<Home />} />
+        <Route path="domains" element={<Domains />} />
+        <Route path="services" element={<Services />} />
+        <Route path="vision" element={<Vision />} />
+        <Route path="locations" element={<Locations />} />
+        <Route path="contact" element={<Contact />} />
+      </Route>
+    </Routes>
   );
 }
 

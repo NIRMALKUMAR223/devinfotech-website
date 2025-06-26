@@ -1,67 +1,35 @@
 // File: src/components/Header.jsx
 import React, { useState, useEffect } from 'react';
-import { FaPhone, FaBars, FaTimes, FaChevronDown, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
-import logo from '../../../public/logo.jpeg'; // Adjust the path as necessary
+import { Link } from 'react-router-dom';
+import { FaPhone, FaBars, FaTimes, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
+import logo from '../../../public/logo.jpeg';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [openDropdown, setOpenDropdown] = useState(null);
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
     };
-    
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-/*************  ✨ Windsurf Command ⭐  *************/
-  /**
-   * Toggles the menu open or closed and adjusts the body's overflow to prevent or allow scrolling.
-   */
-/*******  22a73ea4-9749-4169-a511-63cbf189438a  *******/  const toggleMenu = () => {
+  const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
-    if (isMenuOpen) {
-      document.body.style.overflow = 'auto';
-    } else {
-      document.body.style.overflow = 'hidden';
-    }
+    document.body.style.overflow = isMenuOpen ? 'auto' : 'hidden';
   };
 
   const closeMenu = () => {
     setIsMenuOpen(false);
     document.body.style.overflow = 'auto';
-    setOpenDropdown(null);
   };
 
   const navItems = [
     { name: 'Home', path: '/' },
-    { 
-      name: 'Services', 
-      dropdown: [
-        { name: 'Final Year Projects', path: '/services/final-year' },
-        { name: 'Mini Projects', path: '/services/mini-projects' },
-        { name: 'IEEE Project Support', path: '/services/ieee' },
-        { name: 'Research Paper Writing', path: '/services/research' },
-        { name: 'Code Development', path: '/services/code' },
-        { name: 'Arduino/IoT/AI/ML', path: '/services/emerging-tech' },
-        { name: 'Online Mentorship', path: '/services/mentorship' },
-        { name: 'Website/App Development', path: '/services/web-app' },
-      ]
-    },
-    { 
-      name: 'Domains', 
-      dropdown: [
-        { name: 'Python Development', path: '/domains/python' },
-        { name: 'Java Development', path: '/domains/java' },
-        { name: 'Flutter Development', path: '/domains/flutter' },
-        { name: 'IoT Solutions', path: '/domains/iot' },
-        { name: 'AI/ML Projects', path: '/domains/ai-ml' },
-        { name: 'Web Technologies', path: '/domains/web' },
-      ]
-    },
+    { name: 'Services', path: '/services' },
+    { name: 'Domains', path: '/domains' },
     { name: 'Vision', path: '/vision' },
     { name: 'Locations', path: '/locations' },
     { name: 'Contact', path: '/contact' },
@@ -69,7 +37,7 @@ const Header = () => {
 
   return (
     <header className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white shadow-md py-2' : 'bg-blue-900 py-4'}`}>
-      {/* Top info bar */}
+      {/* Top bar */}
       <div className={`hidden md:flex items-center justify-between px-4 transition-all duration-300 ${isScrolled ? 'h-0 opacity-0 overflow-hidden' : 'h-10 opacity-100'}`}>
         <div className="flex items-center space-x-6">
           <div className="flex items-center text-white text-sm">
@@ -81,80 +49,39 @@ const Header = () => {
             <a href="mailto:devthirveinfotech@gmail.com" className="hover:text-blue-300 transition">devthirveinfotech@gmail.com</a>
           </div>
         </div>
-        
-        <div className="flex items-center">
-          <div className="flex items-center text-white text-sm">
-            <FaMapMarkerAlt className="mr-2 text-blue-300" />
-            <span>Madurai | Coimbatore | Thirupur</span>
-          </div>
+        <div className="flex items-center text-white text-sm">
+          <FaMapMarkerAlt className="mr-2 text-blue-300" />
+          <span>Madurai | Coimbatore | Thirupur</span>
         </div>
       </div>
 
-      {/* Main navigation */}
+      {/* Navigation */}
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between py-3">
           {/* Logo */}
-          <div className="flex items-center">
+          <Link to="/" className="flex items-center">
             <div className="bg-blue-600 w-10 h-10 rounded-lg flex items-center justify-center mr-3">
-              <span className="text-white font-bold text-xl rounded-lg">
-                <img src={logo} alt="" className='w-10 rounded-lg' />
-              </span>
+              <img src={logo} alt="Logo" className="w-10 rounded-lg" />
             </div>
             <div>
-              <h1 className={`font-bold text-xl ${isScrolled ? 'text-blue-800' : 'text-white'}`}>
-                Devthirve info tech
-              </h1>
-              <p className={`text-xs ${isScrolled ? 'text-gray-600' : 'text-blue-200'}`}>
-                Project Guidance & Development Solutions
-              </p>
+              <h1 className={`font-bold text-xl ${isScrolled ? 'text-blue-800' : 'text-white'}`}>Devthirve info tech</h1>
+              <p className={`text-xs ${isScrolled ? 'text-gray-600' : 'text-blue-200'}`}>Project Guidance & Development Solutions</p>
             </div>
-          </div>
+          </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-8">
             {navItems.map((item, index) => (
-              <div 
-                key={index} 
-                className="relative group"
-                onMouseEnter={() => setOpenDropdown(item.name)}
-                onMouseLeave={() => setOpenDropdown(null)}
+              <Link
+                key={index}
+                to={item.path}
+                className={`font-medium ${isScrolled ? 'text-gray-700 hover:text-blue-600' : 'text-white hover:text-blue-300'} transition-all duration-200`}
               >
-                {item.dropdown ? (
-                  <div 
-                    className={`flex items-center cursor-pointer ${isScrolled ? 'text-gray-700 hover:text-blue-600' : 'text-white hover:text-blue-300'}`}
-                  >
-                    <span className="font-medium">{item.name}</span>
-                    <FaChevronDown className="ml-1 text-xs" />
-                    
-                    {/* Dropdown menu */}
-                    <div className={`absolute top-full left-0 mt-2 w-64 bg-white shadow-lg rounded-lg py-2 z-50 transition-all duration-300 transform origin-top ${
-                      openDropdown === item.name ? 'scale-100 opacity-100' : 'scale-95 opacity-0 pointer-events-none'
-                    }`}>
-                      {item.dropdown.map((subItem, subIndex) => (
-                        <a 
-                          key={subIndex}
-                          href={subItem.path}
-                          className="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
-                        >
-                          {subItem.name}
-                        </a>
-                      ))}
-                    </div>
-                  </div>
-                ) : (
-                  <a 
-                    href={item.path} 
-                    className={`font-medium ${isScrolled ? 'text-gray-700 hover:text-blue-600' : 'text-white hover:text-blue-300'}`}
-                  >
-                    {item.name}
-                  </a>
-                )}
-              </div>
+                {item.name}
+              </Link>
             ))}
-            
-            {/* Contact button */}
-            <a 
-              href="tel:97878 57769" 
+            <a
+              href="tel:97878 57769"
               className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center font-medium transition-colors"
             >
               <FaPhone className="mr-2" />
@@ -162,8 +89,8 @@ const Header = () => {
             </a>
           </nav>
 
-          {/* Mobile menu button */}
-          <button 
+          {/* Mobile Menu Button */}
+          <button
             onClick={toggleMenu}
             className={`lg:hidden p-2 rounded-lg ${isScrolled ? 'text-blue-800 bg-blue-50' : 'text-white bg-blue-700'}`}
           >
@@ -175,17 +102,17 @@ const Header = () => {
       {/* Mobile Menu */}
       {isMenuOpen && (
         <div className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-40" onClick={closeMenu}>
-          <div 
+          <div
             className="bg-white w-80 h-full ml-auto p-6 overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex justify-between items-center mb-8">
-              <div className="flex items-center">
+              <Link to="/" className="flex items-center" onClick={closeMenu}>
                 <div className="bg-blue-600 w-10 h-10 rounded-lg flex items-center justify-center mr-3">
                   <span className="text-white font-bold text-xl">D</span>
                 </div>
                 <h1 className="font-bold text-xl text-blue-800">Dev Info Tech</h1>
-              </div>
+              </Link>
               <button onClick={closeMenu} className="text-gray-500">
                 <FaTimes size={24} />
               </button>
@@ -194,40 +121,13 @@ const Header = () => {
             <nav className="space-y-4">
               {navItems.map((item, index) => (
                 <div key={index} className="border-b border-gray-100 pb-4">
-                  {item.dropdown ? (
-                    <div>
-                      <div 
-                        className="flex items-center justify-between font-medium text-gray-800 cursor-pointer"
-                        onClick={() => setOpenDropdown(openDropdown === item.name ? null : item.name)}
-                      >
-                        <span>{item.name}</span>
-                        <FaChevronDown className={`transform transition-transform ${openDropdown === item.name ? 'rotate-180' : ''}`} />
-                      </div>
-                      
-                      {openDropdown === item.name && (
-                        <div className="mt-2 pl-4 space-y-3">
-                          {item.dropdown.map((subItem, subIndex) => (
-                            <a 
-                              key={subIndex}
-                              href={subItem.path}
-                              className="block text-gray-600 hover:text-blue-600"
-                              onClick={closeMenu}
-                            >
-                              {subItem.name}
-                            </a>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  ) : (
-                    <a 
-                      href={item.path} 
-                      className="block font-medium text-gray-800"
-                      onClick={closeMenu}
-                    >
-                      {item.name}
-                    </a>
-                  )}
+                  <Link
+                    to={item.path}
+                    className="block font-medium text-gray-800"
+                    onClick={closeMenu}
+                  >
+                    {item.name}
+                  </Link>
                 </div>
               ))}
             </nav>
@@ -243,14 +143,12 @@ const Header = () => {
               </div>
               <div className="flex items-start">
                 <FaMapMarkerAlt className="text-blue-600 mr-3 mt-1" />
-                <div>
-                  <p className="text-gray-800">Madurai | Coimbatore | Thirupur</p>
-                </div>
+                <p className="text-gray-800">Madurai | Coimbatore | Thirupur</p>
               </div>
             </div>
 
-            <a 
-              href="tel:97878 57769" 
+            <a
+              href="tel:97878 57769"
               className="mt-8 block bg-blue-600 text-white text-center py-3 rounded-lg font-medium"
             >
               <div className="flex items-center justify-center">

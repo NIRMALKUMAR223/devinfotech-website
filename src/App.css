@@ -1,3 +1,19 @@
 .video-play{
     background-color: #e9e7e7;
 }
+
+/* in index.css or global CSS */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.7s ease-in-out both;
+}
